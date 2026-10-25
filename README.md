@@ -23,6 +23,19 @@ This is a backend that is extremely simplified. It is not really meant for anyth
 `docker-compose exec api yarn migrate`
 `docker-compose exec api yarn seed`
 
+## API
+
+- `GET /?limit=20&offset=0` — paged list (`limit` max 100).
+- `POST /` — create `{"name": "...", "age": 3}`. Requires `Authorization: Bearer $API_WRITE_TOKEN`.
+- `DELETE /:id` — remove a kitten. Requires the same bearer token.
+
+Writes are disabled until `API_WRITE_TOKEN` is set. They are rate limited per IP
+(`WRITE_RATE_LIMIT` per `WRITE_RATE_WINDOW_MS`) and capped at `MAX_KITTENS` rows.
+
+## Test
+
+`yarn test`
+
 ## Release
 
 Copy `bin/release.env.example` to `bin/release.env`

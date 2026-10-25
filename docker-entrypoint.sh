@@ -27,5 +27,6 @@ file_env() {
 # all secrets of the application
 file_env 'DB_USERNAME'
 file_env 'DB_PASSWORD'
+file_env 'API_WRITE_TOKEN'
 
 exec "$@"
