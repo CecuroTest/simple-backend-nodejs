@@ -16,6 +16,10 @@ services:
       DB_USERNAME: ${DB_USERNAME:-sample}
       DB_PASSWORD: ${DB_PASSWORD:-sample}
       DB_HOST: ${DB_HOST:-db}
+      API_WRITE_TOKEN: ${API_WRITE_TOKEN:-}
+      MAX_KITTENS: ${MAX_KITTENS:-10000}
+      WRITE_RATE_LIMIT: ${WRITE_RATE_LIMIT:-30}
+      WRITE_RATE_WINDOW_MS: ${WRITE_RATE_WINDOW_MS:-60000}
 
   db:
     container_name: simple_backend_db

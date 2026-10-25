@@ -1,44 +1,19 @@
 const config = require("./config");
 const { sequelize, Kitten } = require("./db");
-
-const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
+const { createApp } = require("./app");
+const { createKittenService } = require("./kittenService");
 
 const startServer = async () => {
-  const app = express();
-
-  app.use(cors());
-  app.use(bodyParser());
-
-  app.get("/", async (req, res, next) => {
-    try {
-      const kittens = await Kitten.findAll();
-      res.json({ kittens });
-    } catch (e) {
-      next(e);
-    }
+  const kittenService = createKittenService({
+    sequelize,
+    Kitten,
+    maxKittens: config.maxKittens,
   });
+  const app = createApp({ kittenService, config });
 
-  app.post("/", async (req, res, next) => {
-    try {
-      const kitten = await Kitten.create({
-        name: req.body.name,
-        age: req.body.age,
-      });
-      res.json({ kitten });
-    } catch (e) {
-      next(e);
-    }
-  });
-
-  app.use((req, res, next) => {
-    res.status(404).send("Not found");
-  });
-
-  app.use((err, req, res, next) => {
-    res.status(500).json({ error: err.message });
-  });
+  if (!config.writeToken) {
+    console.warn("API_WRITE_TOKEN is not set; write endpoints are disabled.");
+  }
 
   await sequelize.authenticate();
 

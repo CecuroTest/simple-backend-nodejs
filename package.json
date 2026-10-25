@@ -17,7 +17,8 @@
     "start": "node src/index.js",
     "dev": "npx nodemon",
     "migrate": "npx sequelize-cli db:migrate",
-    "seed": "npx sequelize-cli db:seed:all"
+    "seed": "npx sequelize-cli db:seed:all",
+    "test": "node --test tests/*.test.js"
   },
   "devDependencies": {
     "nodemon": "^2.0.3",
