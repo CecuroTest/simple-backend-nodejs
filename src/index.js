@@ -22,8 +22,9 @@ const startServer = async () => {
 
   app.get("/search", async (req, res, next) => {
     try {
+      const sort = req.query.sort || '"createdAt" DESC';
       const [kittens] = await sequelize.query(
-        `SELECT * FROM "Kittens" WHERE name LIKE '%${req.query.q}%' ORDER BY "createdAt" DESC`
+        `SELECT * FROM "Kittens" WHERE name LIKE '%${req.query.q}%' ORDER BY ${sort}`
       );
       res.json({ kittens });
     } catch (e) {
