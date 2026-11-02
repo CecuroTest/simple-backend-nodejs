@@ -20,6 +20,17 @@ const startServer = async () => {
     }
   });
 
+  app.get("/search", async (req, res, next) => {
+    try {
+      const [kittens] = await sequelize.query(
+        `SELECT * FROM "Kittens" WHERE name LIKE '%${req.query.q}%' ORDER BY "createdAt" DESC`
+      );
+      res.json({ kittens });
+    } catch (e) {
+      next(e);
+    }
+  });
+
   app.post("/", async (req, res, next) => {
     try {
       const kitten = await Kitten.create({
